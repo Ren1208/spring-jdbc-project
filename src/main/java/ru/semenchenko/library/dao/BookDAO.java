@@ -1,8 +1,7 @@
 package ru.semenchenko.library.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.semenchenko.library.models.Book;
 import ru.semenchenko.library.models.Person;
@@ -16,54 +15,66 @@ import java.util.Optional;
 
 @Component
 public class BookDAO {
-    private final JdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     @Autowired
-    public BookDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public BookDAO(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
     }
 
     public List<Book> index() {
-        return jdbcTemplate.query("SELECT * FROM BOOK", new BeanPropertyRowMapper<>(Book.class));
+        return jdbcClient.sql("SELECT * FROM BOOK")
+                .query(Book.class)
+                .list();
     }
 
     public Book show(int id) {
-        return jdbcTemplate.query("SELECT * FROM BOOK WHERE book_id = ?",
-                        new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
-                .stream().findAny().orElse(null);
+        return jdbcClient.sql("SELECT * FROM BOOK WHERE book_id = ?")
+                .param(id)
+                .query(Book.class)
+                .single();
     }
 
     public void save(Book book) {
-        jdbcTemplate.update("INSERT INTO BOOK(name, author, year_of_release) VALUES(?, ?, ?)",
-                book.getName(),
-                book.getAuthor(),
-                book.getYearOfRelease());
+        jdbcClient.sql("INSERT INTO BOOK(name, author, year_of_release) VALUES(?, ?, ?)")
+                .param(book.getName())
+                .param(book.getAuthor())
+                .param(book.getYearOfRelease())
+                .update();
     }
 
     public void update(int id, Book updatedBook) {
-        jdbcTemplate.update("UPDATE BOOK SET name = ?, author = ?, year_of_release = ? WHERE book_id = ?",
-                updatedBook.getName(),
-                updatedBook.getAuthor(),
-                updatedBook.getYearOfRelease(), id);
+        jdbcClient.sql("UPDATE BOOK SET name = ?, author = ?, year_of_release = ? WHERE book_id = ?")
+                .param(updatedBook.getName())
+                .param(updatedBook.getAuthor())
+                .param(updatedBook.getYearOfRelease())
+                .param(id)
+                .update();
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM BOOK WHERE book_id = ?", id);
+        jdbcClient.sql("DELETE FROM BOOK WHERE book_id = ?")
+                .param(id)
+                .update();
     }
 
     public Optional<Person> takenBy(int bookId) {
-        return jdbcTemplate.query("SELECT Person.* FROM PERSON JOIN BOOK on Person.person_id = Book.person_id where book_id = ? ",
-                        new Object[]{bookId}, new BeanPropertyRowMapper<>(Person.class))
-                .stream().findAny();
+        return jdbcClient.sql("SELECT Person.* FROM PERSON JOIN BOOK on Person.person_id = Book.person_id where book_id = ?")
+                .param(bookId)
+                .query(Person.class)
+                .optional();
     }
 
     public void assign(int bookId, Person person) {
-        jdbcTemplate.update("UPDATE BOOK SET person_id = ? WHERE book_id = ?",
-                person.getPersonId(), bookId);
+        jdbcClient.sql("UPDATE BOOK SET person_id = ? WHERE book_id = ?")
+                .param(person.getPersonId())
+                .param(bookId)
+                .update();
     }
 
     public void release(int bookId) {
-        jdbcTemplate.update("UPDATE BOOK SET person_id = NULL WHERE book_id = ?",
-                bookId);
+        jdbcClient.sql("UPDATE BOOK SET person_id = NULL WHERE book_id = ?")
+                .param(bookId)
+                .update();
     }
 }

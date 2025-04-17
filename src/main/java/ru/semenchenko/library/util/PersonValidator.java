@@ -26,13 +26,11 @@ public class PersonValidator implements Validator {
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        Person person = (Person) target;
+    public void validate(Object o, Errors errors) {
+        Person person = (Person) o;
 
-        if (personDAO.show(person.getName()).isPresent()) {
-            errors.rejectValue("name", "",
-                    "ФИО уже используется.");
-        }
+        if (personDAO.getPersonByFullName(person.getName()).isPresent())
+            errors.rejectValue("name", "", "Человек с таким ФИО уже существует");
     }
 
     @Override

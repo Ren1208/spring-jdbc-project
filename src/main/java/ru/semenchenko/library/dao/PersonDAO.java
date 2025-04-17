@@ -1,8 +1,7 @@
 package ru.semenchenko.library.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.semenchenko.library.models.Book;
 import ru.semenchenko.library.models.Person;
@@ -17,48 +16,61 @@ import java.util.Optional;
 @Component
 public class PersonDAO {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PersonDAO(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
     }
 
     public List<Person> index() {
-        return jdbcTemplate.query("SELECT * FROM PERSON", new BeanPropertyRowMapper<>(Person.class));
+        return jdbcClient.sql("SELECT * FROM PERSON")
+                .query(Person.class)
+                .list();
     }
 
     public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM PERSON WHERE person_id = ?",
-                        new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
-                .stream().findAny().orElse(null);
-    }
-
-    public Optional<Person> show(String name) {
-        return jdbcTemplate.query("SELECT * FROM PERSON WHERE NAME = ?",
-                        new Object[]{name}, new BeanPropertyRowMapper<>(Person.class))
-                .stream().findAny();
+        return jdbcClient.sql("SELECT * FROM PERSON WHERE person_id = ?")
+                .param(id)
+                .query(Person.class)
+                .single();
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO PERSON(name, year_of_birth) VALUES(?, ?)",
-                person.getName(),
-                person.getYearOfBirth());
+        jdbcClient.sql("INSERT INTO PERSON(name, year_of_birth) VALUES(?, ?)")
+                .param(person.getName())
+                .param(person.getYearOfBirth())
+                .update();
+
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE PERSON SET name = ?, year_of_birth = ? WHERE person_id = ?",
-                updatedPerson.getName(),
-                updatedPerson.getYearOfBirth(), id);
+        jdbcClient.sql("UPDATE PERSON SET name = ?, year_of_birth = ? WHERE person_id = ?")
+                .param(updatedPerson.getName())
+                .param(updatedPerson.getYearOfBirth())
+                .param(id)
+                .update();
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM PERSON WHERE person_id = ?", id);
+        jdbcClient.sql("DELETE FROM PERSON WHERE person_id = ?")
+                .param(id)
+                .update();
     }
 
-    public Optional<List<Book>> personListBooks(int personId) {
-        return Optional.of(jdbcTemplate.query("SELECT * FROM BOOK WHERE person_id = ?",
-                new Object[]{personId}, new BeanPropertyRowMapper<>(Book.class)));
+    public Optional<Person> getPersonByFullName(String name) {
+        return jdbcClient.sql("SELECT * FROM Person WHERE name = ?")
+                .param(name)
+                .query(Person.class)
+                .optional();
+    }
+
+    public List<Book> personListBooks(int personId) {
+        return jdbcClient.sql("SELECT * FROM BOOK WHERE person_id = ?")
+                .param(personId)
+                .query(Book.class)
+                .list();
+
     }
 
 }

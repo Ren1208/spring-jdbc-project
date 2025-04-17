@@ -11,9 +11,6 @@ import ru.semenchenko.library.models.Book;
 import ru.semenchenko.library.models.Person;
 import ru.semenchenko.library.util.PersonValidator;
 
-import java.util.List;
-import java.util.Optional;
-
 /**
  * @author Artyom Semenchenko
  */
@@ -40,11 +37,7 @@ public class PeopleController {
     public String show(@PathVariable("id") int id, Model model,
                        @ModelAttribute("book") Book book) {
         model.addAttribute("person", personDAO.show(id));
-
-        Optional<List<Book>> listOfBooks = personDAO.personListBooks(id);
-
-        if (listOfBooks.isPresent())
-            model.addAttribute("listOfBooks", listOfBooks.get());
+        model.addAttribute("listOfBooks", personDAO.personListBooks(id));
 
         return "people/show";
     }
