@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ru.semenchenko.library</groupId>
   <artifactId>Project_Digital_Library_JDBC_Template</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>ProjectDigitalLibrary Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <url>https://maven.apache.org</url>
   <properties>
-    <spring.version>6.1.14</spring.version>
+    <spring.version>6.2.11</spring.version>
   </properties>
   <dependencies>
 
@@ -81,7 +81,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.7.4</version>
+      <version>42.7.7</version>
     </dependency>
 
   </dependencies>
