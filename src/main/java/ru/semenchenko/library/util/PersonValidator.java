@@ -29,12 +29,10 @@ public class PersonValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
 
-        if (personDAO.getPersonByFullName(person.getName()).isPresent())
-            errors.rejectValue("name", "", "Человек с таким ФИО уже существует");
-    }
-
-    @Override
-    public Errors validateObject(Object target) {
-        return Validator.super.validateObject(target);
+        personDAO.getPersonByFullName(person.getName()).ifPresent(foundPerson -> {
+            if (person.getPersonId() != foundPerson.getPersonId()) {
+                errors.rejectValue("name", "", "Человек с таким ФИО уже существует");
+            }
+        });
     }
 }
