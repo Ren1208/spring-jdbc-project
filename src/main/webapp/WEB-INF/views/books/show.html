@@ -8,6 +8,8 @@
 <p th:text="${book.getName() + ', ' + book.getAuthor() + ', ' +
 book.getYearOfRelease()}">VALUE</p>
 
+<hr/>
+
 <div th:if="${owner}">
     <span>Книга сейчас у: </span> <span th:text="${owner.getName()}">Person Name</span>
 
@@ -33,8 +35,6 @@ book.getYearOfRelease()}">VALUE</p>
     </form>
     <hr/>
 </div>
-
-
 
 <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getBookId()})}">
     <input type="submit" value="Редактировать"/>
