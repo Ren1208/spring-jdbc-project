@@ -24,6 +24,6 @@ public class Person {
     private String name;
 
     @Min(value = 1900, message = "Год рождения должнен быть больше 1900.")
-    @Max(value = 2024, message = "Год рождения должен быть меньше 2025.")
+    @Max(value = 2026, message = "Год рождения должен быть меньше 2026.")
     private int yearOfBirth;
 }
