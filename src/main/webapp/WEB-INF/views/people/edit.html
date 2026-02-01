@@ -6,20 +6,42 @@
 </head>
 <body>
 
+<br/>
+<hr/>
+<br/>
+
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/people/{id}(id=${person.getPersonId()})}"
+       style="border: 2px solid #E53935; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #E53935;"
+       th:text="'Назад'"></a>
+
+</div>
+<br/>
+<br/>
+<hr/>
+<br/>
+
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getPersonId()})}" th:object="${person}">
     <input type="hidden" th:field="*{personId}" />
     <label for="name">Введите ФИО: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <input type="text" th:field="*{name}" id="name" size="30"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
     <br/>
     <label for="yearOfBirth">Введите год рождения: </label>
-    <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth"/>
+    <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth" size="1"/>
     <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">YearOfBirth error</div>
     <br/>
     <br/>
     <hr/>
-    <input type="submit" value="Редактировать"/>
+    <br/>
+    <input type="submit"
+           value="Редактировать пользователя"
+           style="border: 2px solid #2E5BFF; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #2E5BFF; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
 </form>
 
 </body>

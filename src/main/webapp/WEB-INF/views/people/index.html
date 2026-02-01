@@ -2,19 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Список людей</title>
+    <title>Список пользователей</title>
 </head>
 <body>
 
-<div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getPersonId()})}"
-       th:text="${person.getName() + ', ' + person.getYearOfBirth()}">user</a>
-</div>
+<br/>
+<hr/>
+<br/>
 
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/books}"
+       style="border: 2px solid #28a745; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #28a745;"
+       th:text="'Книги'"></a>
+</div>
+<br/>
 <br/>
 <hr/>
 
-<a href="/people/new">Добавить человека</a>
+<div th:if="${not #lists.isEmpty(people)}">
+    <p>Найдено пользователей: <span th:text="${#lists.size(people)}"></span></p>
+
+    <div th:each="person : ${people}">
+        <a th:href="@{/people/{id}(id=${person.getPersonId()})}"
+           th:text="${person.getName() + ', ' + person.getYearOfBirth()}">Book</a>
+    </div>
+</div>
+
+
+<br/>
+<hr/>
+<br/>
+
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/people/new}"
+       style="border: 2px solid #2E5BFF; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #2E5BFF;"
+       th:text="'Добавить пользователя'"></a>
+</div>
 
 </body>
 </html>

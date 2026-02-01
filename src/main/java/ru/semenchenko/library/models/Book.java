@@ -23,10 +23,10 @@ public class Book {
     @Size(min = 2, max = 100, message = "Название книги должно содержать от 2 до 100 символов.")
     private String name;
 
-    @NotEmpty(message = "ФИО автора не может быть пустым.")
-    @Size(min = 4, max = 100, message = "ФИО автора должно содержать от 4 до 100 символов.")
+    @NotEmpty(message = "Имя автора не может быть пустым.")
+    @Size(min = 4, max = 100, message = "Имя автора должно содержать от 4 до 100 символов.")
     private String author;
 
-    @Max(value = 2024, message = "Год выпуска книги не может быть позднее 2024 года.")
+    @Max(value = 2026, message = "Год выпуска книги не может быть позднее 2026 года.")
     private int yearOfRelease;
 }

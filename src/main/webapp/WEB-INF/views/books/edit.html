@@ -6,24 +6,45 @@
 </head>
 <body>
 
+<br/>
+<hr/>
+<br/>
+
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/books/{id}(id=${book.getBookId()})}"
+       style="border: 2px solid #E53935; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #E53935;"
+       th:text="'Назад'"></a>
+</div>
+<br/>
+<br/>
+<hr/>
+<br/>
+
 <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getBookId()})}" th:object="${book}">
     <label for="name">Введите название книги: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <input type="text" th:field="*{name}" id="name" size="30"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
     <br/>
     <label for="author">Введите автора: </label>
-    <input type="text" th:field="*{author}" id="author"/>
+    <input type="text" th:field="*{author}" id="author" size="30"/>
     <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
     <br/>
     <br/>
     <label for="yearOfRelease">Введите год выпуска: </label>
-    <input type="text" th:field="*{yearOfRelease}" id="yearOfRelease"/>
+    <input type="text" th:field="*{yearOfRelease}" id="yearOfRelease" size="1"/>
     <div style="color:red" th:if="${#fields.hasErrors('yearOfRelease')}" th:errors="*{yearOfRelease}">YearOfRelease error</div>
     <br/>
     <br/>
     <hr/>
-    <input type="submit" value="Редактировать"/>
+    <br/>
+    <input type="submit"
+           value="Редактировать книгу"
+           style="border: 2px solid #2E5BFF; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #2E5BFF; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
 </form>
 
 </body>

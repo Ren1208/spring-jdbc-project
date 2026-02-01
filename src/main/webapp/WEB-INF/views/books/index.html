@@ -6,16 +6,45 @@
 </head>
 <body>
 
-<div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.getBookId()})}"
-       th:text="${book.getName() + ', ' + book.getAuthor() + ', ' +
-       book.getYearOfRelease()}">Book</a>
+<br/>
+<hr/>
+<br/>
+
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/people}"
+       style="border: 2px solid #28a745; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #28a745;"
+       th:text="'Пользователи'"></a>
+</div>
+
+<br/>
+<br/>
+<hr/>
+
+<div th:if="${not #lists.isEmpty(books)}">
+    <p>Найдено книг: <span th:text="${#lists.size(books)}"></span></p>
+
+    <div th:each="book : ${books}">
+        <a th:href="@{/books/{id}(id=${book.getBookId()})}"
+           th:text="${book.getName() + ', ' + book.getAuthor() + ', ' +
+           book.getYearOfRelease()}">Book</a>
+    </div>
+</div>
+
+<div th:if="${#lists.isEmpty(books)}">
+    <p>Книги не найдены.</p>
 </div>
 
 <br/>
 <hr/>
+<br/>
 
-<a href="/books/new">Добавить книгу</a>
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/books/new}"
+       style="border: 2px solid #2E5BFF; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #2E5BFF;"
+       th:text="'Добавить книгу'"></a>
+</div>
 
 </body>
 </html>

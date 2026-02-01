@@ -5,7 +5,27 @@
     <title>Информация о человеке</title>
 </head>
 <body>
-<p th:text="${person.getName() + ', ' + person.getYearOfBirth()}">VALUE</p>
+
+<br/>
+<hr/>
+<br/>
+
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/people}"
+       style="border: 2px solid #E53935; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #E53935;"
+       th:text="'Назад'"></a>
+
+    <a th:href="@{/books}"
+       style="border: 2px solid #28a745; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #28a745;"
+       th:text="'Книги'"></a>
+</div>
+<br/>
+<br/>
+<hr/>
+
+<p th:text="${'Пользователь ' + person.getName() + ', ' + person.getYearOfBirth()}">VALUE</p>
 
 <div th:if="${listOfBooks.isEmpty()}">
     <p>Человек пока не взял ни одной книги</p>
@@ -14,22 +34,35 @@
 
 <div th:if="${!listOfBooks.isEmpty()}">
     <hr/>
-    <b>Книги:</b>
+    <br/>
+    <b>Взятые книги:</b>
     <br/>
     <table th:each="book : ${listOfBooks}">
         <tr th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}">book</tr>
     </table>
+    <br/>
     <hr/>
 </div>
 
+<br/>
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getPersonId()})}">
-    <input type="submit" value="Редактировать"/>
+    <input type="submit"
+           value="Редактировать"
+           style="border: 2px solid #2E5BFF; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #2E5BFF; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
 </form>
 
 <br/>
 
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}">
-    <input type="submit" value="Удалить"/>
+    <input type="submit"
+           value="Удалить"
+           style="border: 2px solid #E53935; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #E53935; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
 </form>
 </body>
 </html>

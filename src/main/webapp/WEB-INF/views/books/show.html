@@ -5,25 +5,53 @@
     <title>Информация о книге</title>
 </head>
 <body>
-<p th:text="${book.getName() + ', ' + book.getAuthor() + ', ' +
+
+<br/>
+<hr/>
+<br/>
+
+<div style="display: inline-flex; gap: 10px;">
+    <a th:href="@{/books}"
+       style="border: 2px solid #E53935; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #E53935;"
+       th:text="'Назад'"></a>
+
+    <a th:href="@{/people}"
+       style="border: 2px solid #007bff; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #007bff;"
+       th:text="'Пользователи'"></a>
+</div>
+<br/>
+<br/>
+<hr/>
+
+<p th:text="'Книга ' + ${book.getName() + ', ' + book.getAuthor() + ', ' +
 book.getYearOfRelease()}">VALUE</p>
 
 <hr/>
+<br/>
 
 <div th:if="${owner}">
-    <span>Книга сейчас у: </span> <span th:text="${owner.getName()}">Person Name</span>
+    <span>Владелец: </span> <span th:text="${owner.getName()}">Person Name</span>
 
     <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getBookId()})}">
         <br/>
-        <input type="submit" value="Освободить книгу"/>
+        <input type="submit"
+               value="Освободить книгу"
+               style="border: 2px solid #28a745; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #28a745; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
+        <br/>
     </form>
+    <br/>
     <hr/>
 </div>
 
 
 <div th:if="${owner == null}">
     <hr/>
-    <p>Эта книга свободна. Кому назначить её?</p>
+    <p>Эта книга свободна. Кому необходимо её назначить?</p>
 
     <form th:method = "PATCH" th:action="@{/books/{id}/assign(id=${book.getBookId()})}">
         <label for="person">Выберите человека:</label>
@@ -31,19 +59,37 @@ book.getYearOfRelease()}">VALUE</p>
             <option th:each="person : ${people}" th:value="${person.getPersonId()}"
                     th:text="${person.getName()}"></option>
         </select>
-        <input type="submit" value="Назначить книгу"/>
+        <input type="submit"
+               value="Назначить книгу"
+               style="border: 2px solid #28a745; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #28a745; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
+        <br/>
     </form>
     <hr/>
 </div>
 
+<br/>
+
 <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getBookId()})}">
-    <input type="submit" value="Редактировать"/>
+    <input type="submit"
+           value="Редактировать"
+           style="border: 2px solid #2E5BFF; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #2E5BFF; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
 </form>
 
 <br/>
 
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getBookId()})}">
-    <input type="submit" value="Удалить"/>
+    <input type="submit"
+           value="Удалить"
+           style="border: 2px solid #E53935; padding: 8px 16px; border-radius: 5px;
+              text-decoration: none; color: #E53935; cursor: pointer;
+              background-color: white; font-size: 16px; font-family: inherit;
+              transition: all 0.2s ease; display: inline-block;"/>
 </form>
 </body>
 </html>
